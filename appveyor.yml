@@ -16,7 +16,7 @@ build:
   project: src/Spk.UnhandledExceptionHandler.sln
   publish_nuget: true
 
-before_deploy:
+after_build:
   - nuget pack Spk.UnhandledExceptionHandlerCore/Spk.UnhandledExceptionHandlerCore.csproj
 
 artifacts:
