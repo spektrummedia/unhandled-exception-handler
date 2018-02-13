@@ -14,10 +14,7 @@ before_build:
 
 build:
   project: src/Spk.UnhandledExceptionHandler.sln
-  publish_nuget: true   
-
-artifacts:
-  - path: 'src\Spk.UnhandledExceptionHandlerUi\**\.nupkg'
+  publish_nuget: true
 
 deploy:
   provider: NuGet
