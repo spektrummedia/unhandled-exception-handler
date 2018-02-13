@@ -20,7 +20,7 @@ after_build:
   - nuget pack Spk.UnhandledExceptionHandlerCore/Spk.UnhandledExceptionHandlerCore.csproj
 
 artifacts:
-  - path: 'Spk.UnhandledExceptionHandlerCore\**\*.nupkg'
+  - path: 'src\Spk.UnhandledExceptionHandlerCore.*.nupkg'
 
 deploy:
   provider: NuGet
