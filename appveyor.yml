@@ -25,4 +25,4 @@ deploy:
     secure: 08VoeMu7J5NvW2Rhro9kRtzP53d6omvavlOgBaY32/WQt5ENeE3HKKCe1tbCDOUy
   artifact: src/.*\.nupkg/
   on:
-    branch: master
+    branch: develop
