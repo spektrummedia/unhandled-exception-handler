@@ -19,7 +19,6 @@ namespace Spk.UnhandledExceptionHandlerCore.Utils
             HttpSessionState session)
         {
             exception.GuardIsNotNull(nameof(exception));
-            request.GuardIsNotNull(nameof(request));
 
             _request = request;
             _session = session;
@@ -66,7 +65,7 @@ namespace Spk.UnhandledExceptionHandlerCore.Utils
 
         private ExceptionWithDataBuilder AppendFormData()
         {
-            if (_request.Form != null && _request.Form.HasKeys())
+            if (_request?.Form != null && _request.Form.HasKeys())
             {
                 var fieldsToHide = ConfigUtils.FieldsToHide;
 
@@ -95,7 +94,7 @@ namespace Spk.UnhandledExceptionHandlerCore.Utils
 
         private ExceptionWithDataBuilder AppendUserHostAddress()
         {
-            if (_request.UserHostAddress != null)
+            if (_request?.UserHostAddress != null)
             {
                 _exception.Data.Add("UserHostAddress", _request.UserHostAddress);
             }
@@ -105,7 +104,7 @@ namespace Spk.UnhandledExceptionHandlerCore.Utils
 
         private ExceptionWithDataBuilder AppendUserAgent()
         {
-            if (_request.UserAgent != null)
+            if (_request?.UserAgent != null)
             {
                 _exception.Data.Add("UserAgent", _request.UserAgent);
             }
@@ -115,7 +114,7 @@ namespace Spk.UnhandledExceptionHandlerCore.Utils
 
         private ExceptionWithDataBuilder AppendAbsoluteUri()
         {
-            if (!string.IsNullOrEmpty(_request.Url?.AbsoluteUri))
+            if (!string.IsNullOrEmpty(_request?.Url?.AbsoluteUri))
             {
                 _exception.Data.Add("AbsoluteUri", _request.Url.AbsoluteUri);
             }
@@ -125,7 +124,7 @@ namespace Spk.UnhandledExceptionHandlerCore.Utils
 
         private ExceptionWithDataBuilder AppendUrlReferrer()
         {
-            if (!string.IsNullOrEmpty(_request.UrlReferrer?.AbsoluteUri))
+            if (!string.IsNullOrEmpty(_request?.UrlReferrer?.AbsoluteUri))
             {
                 _exception.Data.Add("UrlReferrer", _request.UrlReferrer);
             }

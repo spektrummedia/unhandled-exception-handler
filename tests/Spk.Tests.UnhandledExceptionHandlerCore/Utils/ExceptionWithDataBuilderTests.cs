@@ -268,12 +268,5 @@ namespace Spk.Tests.UnhandledExceptionHandlerCore.Utils
             Assert.Throws<ArgumentNullException>(() =>
                 new ExceptionWithDataBuilder(null, _mockRequest.Object, _mockSessionState));
         }
-
-        [Fact]
-        public void ctor_ShouldThrow_WhenRequestIsNull()
-        {
-            Assert.Throws<ArgumentNullException>(
-                () => new ExceptionWithDataBuilder(_exception, null, _mockSessionState));
-        }
     }
 }
