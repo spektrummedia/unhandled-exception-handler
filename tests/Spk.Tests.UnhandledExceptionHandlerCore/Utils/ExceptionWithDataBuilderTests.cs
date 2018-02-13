@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Web;
+using Moq;
 using Shouldly;
 using Spk.UnhandledExceptionHandlerCore.Utils;
 using Xunit;
@@ -10,18 +11,22 @@ namespace Spk.Tests.UnhandledExceptionHandlerCore.Utils
     {
         public ExceptionWithDataBuilderTests()
         {
-            _request = new HttpRequest("", "http://localhost", "");
+            _mockRequest = new Mock<HttpRequestWrapper>(new HttpRequest("", "http://localhost", ""));
             _exception = new Exception();
         }
 
-        private readonly HttpRequest _request;
+        private readonly Mock<HttpRequestWrapper> _mockRequest;
         private readonly Exception _exception;
 
         [Fact]
-        public void Build_ShouldAppendAbsoluteUri()
+        public void Build_ShouldNotAppendAbsoluteUri()
         {
             // Arrange
-            var builder = new ExceptionWithDataBuilder(_exception, _request);
+            _mockRequest
+                .Setup(x => x.Url)
+                .Returns(new Uri("http://localhost"));
+
+            var builder = new ExceptionWithDataBuilder(_exception, _mockRequest.Object);
 
             // Act
             var resul = builder.Build();
@@ -31,10 +36,23 @@ namespace Spk.Tests.UnhandledExceptionHandlerCore.Utils
         }
 
         [Fact]
+        public void Build_ShouldNotAppendAbsoluteUri_WhenNone()
+        {
+            // Arrange
+            var builder = new ExceptionWithDataBuilder(_exception, _mockRequest.Object);
+
+            // Act
+            var resul = builder.Build();
+
+            // Assert
+            resul.Data["AbsoluteUri"].ShouldBeNull();
+        }
+
+        [Fact]
         public void Build_ShouldNotReturnNull()
         {
             // Arrange
-            var builder = new ExceptionWithDataBuilder(_exception, _request);
+            var builder = new ExceptionWithDataBuilder(_exception, _mockRequest.Object);
 
             // Act
             var result = builder.Build();
@@ -47,7 +65,7 @@ namespace Spk.Tests.UnhandledExceptionHandlerCore.Utils
         [Fact]
         public void ctor_ShouldThrow_WhenExceptionIsNull()
         {
-            Assert.Throws<ArgumentNullException>(() => new ExceptionWithDataBuilder(null, _request));
+            Assert.Throws<ArgumentNullException>(() => new ExceptionWithDataBuilder(null, _mockRequest.Object));
         }
 
         [Fact]
