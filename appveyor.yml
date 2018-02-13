@@ -16,6 +16,9 @@ build:
   project: src/Spk.UnhandledExceptionHandler.sln
   publish_nuget: true
 
+before_deploy:
+  - nuget pack src/Spk.UnhandledExceptionHandlerUi/Spk.UnhandledExceptionHandlerUi.csproj
+
 deploy:
   provider: NuGet
   api_key:
