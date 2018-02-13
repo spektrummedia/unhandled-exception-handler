@@ -96,6 +96,23 @@ namespace Spk.Tests.UnhandledExceptionHandlerCore.Utils
         }
 
         [Fact]
+        public void Build_ShouldAppendUserHostAddress()
+        {
+            // Arrange
+            _mockRequest
+                .Setup(x => x.UserHostAddress)
+                .Returns("test_hostaddress");
+
+            var builder = new ExceptionWithDataBuilder(_exception, _mockRequest.Object);
+
+            // Act
+            var resul = builder.Build();
+
+            // Assert
+            resul.Data["UserHostAddress"].ShouldBe("test_hostaddress");
+        }
+
+        [Fact]
         public void Build_ShouldNotReturnNull()
         {
             // Arrange

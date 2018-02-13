@@ -25,7 +25,18 @@ namespace Spk.UnhandledExceptionHandlerCore.Utils
             return AppendAbsoluteUri()
                 .AppendUrlReferrer()
                 .AppendUserAgent()
+                .AppendUserHostAddress()
                 .GetException();
+        }
+
+        private ExceptionWithDataBuilder AppendUserHostAddress()
+        {
+            if (_request.UserHostAddress != null)
+            {
+                _currentException.Data.Add("UserHostAddress", _request.UserHostAddress);
+            }
+
+            return this;
         }
 
         private ExceptionWithDataBuilder AppendUserAgent()
