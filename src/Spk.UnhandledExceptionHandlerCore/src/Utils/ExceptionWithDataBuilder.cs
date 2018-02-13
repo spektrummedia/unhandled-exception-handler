@@ -6,7 +6,8 @@ namespace Spk.UnhandledExceptionHandlerCore.Utils
 {
     public class ExceptionWithDataBuilder
     {
-        private Exception _currentException { get; }
+        private readonly Exception _currentException;
+        private readonly HttpRequest _request;
 
         public ExceptionWithDataBuilder(
             Exception exception,
@@ -15,11 +16,22 @@ namespace Spk.UnhandledExceptionHandlerCore.Utils
             exception.GuardIsNotNull(nameof(exception));
             request.GuardIsNotNull(nameof(request));
 
+            _request = request;
             _currentException = exception;
         }
 
         public Exception Build()
         {
+            return AppendAbsoluteUri();
+        }
+
+        private Exception AppendAbsoluteUri()
+        {
+            if (!string.IsNullOrEmpty(_request.Url.AbsoluteUri))
+            {
+                _currentException.Data.Add("AbsoluteUri", _request.Url.AbsoluteUri);
+            }
+
             return _currentException;
         }
     }

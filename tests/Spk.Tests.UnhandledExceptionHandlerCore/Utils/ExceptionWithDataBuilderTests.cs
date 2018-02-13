@@ -11,23 +11,37 @@ namespace Spk.Tests.UnhandledExceptionHandlerCore.Utils
         public ExceptionWithDataBuilderTests()
         {
             _request = new HttpRequest("", "http://localhost", "");
+            _exception = new Exception();
         }
 
         private readonly HttpRequest _request;
+        private readonly Exception _exception;
+
+        [Fact]
+        public void Build_ShouldAppendAbsoluteUri()
+        {
+            // Arrange
+            var builder = new ExceptionWithDataBuilder(_exception, _request);
+
+            // Act
+            var resul = builder.Build();
+
+            // Assert
+            resul.Data["AbsoluteUri"].ShouldNotBeNull();
+        }
 
         [Fact]
         public void Build_ShouldNotReturnNull()
         {
             // Arrange
-            var exception = new Exception();
-            var builder = new ExceptionWithDataBuilder(exception, _request);
+            var builder = new ExceptionWithDataBuilder(_exception, _request);
 
             // Act
             var result = builder.Build();
 
             // Assert
             result.ShouldNotBeNull();
-            result.ShouldBeSameAs(exception);
+            result.ShouldBeSameAs(_exception);
         }
 
         [Fact]
@@ -39,7 +53,7 @@ namespace Spk.Tests.UnhandledExceptionHandlerCore.Utils
         [Fact]
         public void ctor_ShouldThrow_WhenRequestIsNull()
         {
-            Assert.Throws<ArgumentNullException>(() => new ExceptionWithDataBuilder(new Exception(), null));
+            Assert.Throws<ArgumentNullException>(() => new ExceptionWithDataBuilder(_exception, null));
         }
     }
 }
