@@ -17,4 +17,4 @@ build:
   publish_nuget: true   
 
 artifacts:
-  - path: '**\*.nupkg'
+  - path: 'src\Spk.UnhandledExceptionHandlerUi\**\.nupkg'
