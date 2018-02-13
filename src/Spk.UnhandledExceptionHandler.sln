@@ -1,11 +1,18 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26730.16
+VisualStudioVersion = 15.0.27130.2027
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spk.UnhandledExceptionHandlerCore", "Spk.UnhandledExceptionHandlerCore\Spk.UnhandledExceptionHandlerCore.csproj", "{B852A022-70CB-4DFA-A265-CB485DC98308}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spk.UnhandledExceptionHandlerUi", "Spk.UnhandledExceptionHandlerUi\Spk.UnhandledExceptionHandlerUi.csproj", "{6D35910B-0DEC-4DB0-BE58-F5831A54E1E0}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{A9CA5E12-0C9D-44E3-9E55-4C23A87CEBB0}"
+	ProjectSection(SolutionItems) = preProject
+		..\.gitignore = ..\.gitignore
+		..\LICENSE = ..\LICENSE
+		..\README.md = ..\README.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
