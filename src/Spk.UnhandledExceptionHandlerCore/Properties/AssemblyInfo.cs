@@ -4,7 +4,7 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Unhandled Exception Handler Core")]
+[assembly: AssemblyTitle("An exception catcher for .Net MVC 4 and 5. Unhandled Exception Handler Core")]
 [assembly: AssemblyDescription("Manages unhandled exceptions thrown in an application by adding log entries and sending emails.")]
 
 // Setting ComVisible to false makes the types in this assembly not visible

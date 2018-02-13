@@ -1,0 +1,31 @@
+image: Visual Studio 2017
+
+branches:
+  only:
+    - master
+    - develop
+
+install:
+  - set PATH=C:\Program Files (x86)\MSBuild\14.0\Bin;%PATH%
+
+before_build:
+  - cd src
+  - nuget restore
+
+build:
+  project: src/Spk.UnhandledExceptionHandler.sln
+  publish_nuget: true
+
+after_build:
+  - nuget pack Spk.UnhandledExceptionHandlerCore/Spk.UnhandledExceptionHandlerCore.csproj
+
+artifacts:
+  - path: 'src\Spk.UnhandledExceptionHandlerCore.*.nupkg'
+
+deploy:
+  provider: NuGet
+  api_key:
+    secure: 08VoeMu7J5NvW2Rhro9kRtzP53d6omvavlOgBaY32/WQt5ENeE3HKKCe1tbCDOUy
+  artifact: /.*\.nupkg/
+  on:
+    branch: develop
