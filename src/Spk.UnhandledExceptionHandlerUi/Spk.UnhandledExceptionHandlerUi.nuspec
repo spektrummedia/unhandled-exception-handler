@@ -7,6 +7,7 @@
         <authors>spektrummedia</authors>
         <owners>Spektrum Media</owners>
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
+        <iconUrl>https://avatars1.githubusercontent.com/u/13052913</iconUrl>
         <description>Manages unhandled exceptions thrown in an application by adding log entries and sending emails.</description>
         <releaseNotes></releaseNotes>
         <copyright>Copyright Spektrum Media 2018</copyright>
