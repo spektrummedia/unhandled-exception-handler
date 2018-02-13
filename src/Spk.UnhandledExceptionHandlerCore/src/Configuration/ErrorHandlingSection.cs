@@ -69,29 +69,16 @@ namespace Spk.UnhandledExceptionHandlerCore.Configuration
             }
         }
 
-        [ConfigurationProperty("emailUsername", DefaultValue = "", IsRequired = true)]
-        public string EmailUsername
+        [ConfigurationProperty("sentryDsn", DefaultValue = "", IsRequired = true)]
+        public string SentryDsn
         {
             get
             {
-                return (string)this["emailUsername"];
+                return (string)this["sentryDsn"];
             }
             set
             {
-                this["emailUsername"] = value;
-            }
-        }
-
-        [ConfigurationProperty("emailPassword", DefaultValue = "", IsRequired = true)]
-        public string EmailPassword
-        {
-            get
-            {
-                return (string)this["emailPassword"];
-            }
-            set
-            {
-                this["emailPassword"] = value;
+                this["sentryDsn"] = value;
             }
         }
 

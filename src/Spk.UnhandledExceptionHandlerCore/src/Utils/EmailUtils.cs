@@ -9,6 +9,8 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Mvc;
+using SharpRaven;
+using SharpRaven.Data;
 
 namespace Spk.UnhandledExceptionHandlerCore.Utils
 {
@@ -432,18 +434,8 @@ namespace Spk.UnhandledExceptionHandlerCore.Utils
             mail.IsBodyHtml = true;
             mail.BodyEncoding = Encoding.UTF8;
 
-            var smtp = ConfigUtils.UseCustomSmtpConfig
-                ? new SmtpClient
-                {
-                    Host = ConfigUtils.SmtpHost,
-                    Port = ConfigUtils.SmtpPort,
-                    UseDefaultCredentials = false,
-                    Credentials = new NetworkCredential(ConfigUtils.Username, ConfigUtils.Password),
-                    EnableSsl = ConfigUtils.EnableSsl
-                }
-                : new SmtpClient();
-
-            smtp.Send(mail);
+            var sentryClient = new RavenClient(ConfigUtils.SentryDsn);
+            sentryClient.Capture(new SentryEvent(exception));
         }
 
         /// <summary>

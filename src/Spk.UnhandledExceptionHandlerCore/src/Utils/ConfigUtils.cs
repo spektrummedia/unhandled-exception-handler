@@ -27,14 +27,9 @@ namespace Spk.UnhandledExceptionHandlerCore.Utils
             get { return GetErrorHandlingSection().EnableSsl; }
         }
 
-        public static string Username
+        public static string SentryDsn
         {
-            get { return GetErrorHandlingSection().EmailUsername; }
-        }
-
-        public static string Password
-        {
-            get { return GetErrorHandlingSection().EmailPassword; }
+            get { return GetErrorHandlingSection().SentryDsn; }
         }
 
         public static string From
