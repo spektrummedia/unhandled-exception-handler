@@ -19,7 +19,7 @@ namespace Spk.Tests.UnhandledExceptionHandlerCore.Utils
         private readonly Exception _exception;
 
         [Fact]
-        public void Build_ShouldNotAppendAbsoluteUri()
+        public void Build_ShouldAppendAbsoluteUri()
         {
             // Arrange
             _mockRequest
@@ -36,6 +36,40 @@ namespace Spk.Tests.UnhandledExceptionHandlerCore.Utils
         }
 
         [Fact]
+        public void Build_ShouldAppendUrlReferrer()
+        {
+            // Arrange
+            _mockRequest
+                .Setup(x => x.UrlReferrer)
+                .Returns(new Uri("http://localhost"));
+
+            var builder = new ExceptionWithDataBuilder(_exception, _mockRequest.Object);
+
+            // Act
+            var resul = builder.Build();
+
+            // Assert
+            resul.Data["UrlReferrer"].ShouldNotBeNull();
+        }
+
+        [Fact]
+        public void Build_ShouldAppendUserAgent()
+        {
+            // Arrange
+            _mockRequest
+                .Setup(x => x.UserAgent)
+                .Returns("test_useragent");
+
+            var builder = new ExceptionWithDataBuilder(_exception, _mockRequest.Object);
+
+            // Act
+            var resul = builder.Build();
+
+            // Assert
+            resul.Data["UserAgent"].ShouldBe("test_useragent");
+        }
+
+        [Fact]
         public void Build_ShouldNotAppendAbsoluteUri_WhenNone()
         {
             // Arrange
@@ -46,6 +80,19 @@ namespace Spk.Tests.UnhandledExceptionHandlerCore.Utils
 
             // Assert
             resul.Data["AbsoluteUri"].ShouldBeNull();
+        }
+
+        [Fact]
+        public void Build_ShouldNotAppendUrlReferrer_WhenNone()
+        {
+            // Arrange
+            var builder = new ExceptionWithDataBuilder(_exception, _mockRequest.Object);
+
+            // Act
+            var resul = builder.Build();
+
+            // Assert
+            resul.Data["UrlReferrer"].ShouldBeNull();
         }
 
         [Fact]
@@ -60,6 +107,19 @@ namespace Spk.Tests.UnhandledExceptionHandlerCore.Utils
             // Assert
             result.ShouldNotBeNull();
             result.ShouldBeSameAs(_exception);
+        }
+
+        [Fact]
+        public void Build_ShouldNotUserAgent_WhenNone()
+        {
+            // Arrange
+            var builder = new ExceptionWithDataBuilder(_exception, _mockRequest.Object);
+
+            // Act
+            var resul = builder.Build();
+
+            // Assert
+            resul.Data["UserAgent"].ShouldBeNull();
         }
 
         [Fact]

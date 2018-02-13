@@ -22,16 +22,44 @@ namespace Spk.UnhandledExceptionHandlerCore.Utils
 
         public Exception Build()
         {
-            return AppendAbsoluteUri();
+            return AppendAbsoluteUri()
+                .AppendUrlReferrer()
+                .AppendUserAgent()
+                .GetException();
         }
 
-        private Exception AppendAbsoluteUri()
+        private ExceptionWithDataBuilder AppendUserAgent()
+        {
+            if (_request.UserAgent != null)
+            {
+                _currentException.Data.Add("UserAgent", _request.UserAgent);
+            }
+
+            return this;
+        }
+
+        private ExceptionWithDataBuilder AppendAbsoluteUri()
         {
             if (!string.IsNullOrEmpty(_request.Url?.AbsoluteUri))
             {
                 _currentException.Data.Add("AbsoluteUri", _request.Url.AbsoluteUri);
             }
 
+            return this;
+        }
+
+        private ExceptionWithDataBuilder AppendUrlReferrer()
+        {
+            if (!string.IsNullOrEmpty(_request.UrlReferrer?.AbsoluteUri))
+            {
+                _currentException.Data.Add("UrlReferrer", _request.UrlReferrer);
+            }
+
+            return this;
+        }
+
+        private Exception GetException()
+        {
             return _currentException;
         }
     }
