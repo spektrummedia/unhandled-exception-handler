@@ -1,0 +1,33 @@
+﻿<?xml version="1.0"?>
+<configuration xmlns:xdt="http://schemas.microsoft.com/XML-Document-Transform">
+
+    <configSections xdt:Transform="InsertIfMissing">
+        <sectionGroup name="errorHandlingGroup" xdt:Transform="Remove" xdt:Locator="Match(name)" />
+        
+        <sectionGroup name="errorHandlingGroup" xdt:Transform="Insert">
+            <section name="errorHandling"
+                     type="Spk.Infrastructure.UnhandledExceptionHandlerCore.Configuration.ErrorHandlingSection"
+                     allowLocation="true"
+                     allowDefinition="Everywhere" />
+        </sectionGroup>
+    </configSections>
+    
+    <errorHandlingGroup xdt:Transform="InsertIfMissing">
+        <errorHandling useCustomSmtpConfig="false"
+                       smtpHost=""
+                       smtpPort="587"
+                       enableSsl="true"
+                       emailUsername=""
+                       emailPassword=""
+                       emailFrom=""
+                       emailFromName=""
+                       emailTo=""
+                       emailSubjectPrefix="Unknown Project"
+                       sendEmailWhenLocal="false"
+                       showErrorsWhenLocal="true"
+                       ignoreCrawlers="true"
+                       baseControllerPath="/app"
+                       fieldsToHide="password"
+					   pathsToIgnore="wp-content" />
+    </errorHandlingGroup>
+</configuration>
