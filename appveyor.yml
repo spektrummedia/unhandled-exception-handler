@@ -17,7 +17,7 @@ build:
   publish_nuget: true
 
 before_deploy:
-  - nuget pack Spk.UnhandledExceptionHandlerUi/Spk.UnhandledExceptionHandlerUi.csproj
+  - nuget pack Spk.UnhandledExceptionHandlerCore/Spk.UnhandledExceptionHandlerCore.csproj
 
 deploy:
   provider: NuGet
