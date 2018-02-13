@@ -20,7 +20,7 @@ before_deploy:
   - nuget pack Spk.UnhandledExceptionHandlerCore/Spk.UnhandledExceptionHandlerCore.csproj
 
 artifacts:
-  - path: 'src\Spk.UnhandledExceptionHandlerCore\**\*.nupkg'
+  - path: 'Spk.UnhandledExceptionHandlerCore\**\*.nupkg'
 
 deploy:
   provider: NuGet
