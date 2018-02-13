@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Web;
 using Spk.Common.Helpers.Guard;
 
@@ -26,7 +27,37 @@ namespace Spk.UnhandledExceptionHandlerCore.Utils
                 .AppendUrlReferrer()
                 .AppendUserAgent()
                 .AppendUserHostAddress()
+                .AppendFormData()
                 .GetException();
+        }
+
+        private ExceptionWithDataBuilder AppendFormData()
+        {
+            if (_request.Form != null && _request.Form.HasKeys())
+            {
+                var fieldsToHide = ConfigUtils.FieldsToHide;
+
+                foreach (string key in _request.Form.Keys)
+                {
+                    string value;
+
+                    // Prevent passwords to be shown
+                    if (fieldsToHide.Contains(key.ToLowerInvariant()))
+                    {
+                        value = Convert.ToString(_request.Form[key]).Length > 0
+                            ? "[hidden]"
+                            : "[would be hidden but empty]";
+                    }
+                    else
+                    {
+                        value = Convert.ToString(_request.Form[key]);
+                    }
+
+                    _currentException.Data.Add($"form:{key}", value);
+                }
+            }
+
+            return this;
         }
 
         private ExceptionWithDataBuilder AppendUserHostAddress()

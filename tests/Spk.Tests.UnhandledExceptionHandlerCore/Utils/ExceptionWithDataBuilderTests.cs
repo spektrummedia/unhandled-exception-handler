@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Specialized;
 using System.Web;
 using Moq;
 using Shouldly;
@@ -110,6 +111,80 @@ namespace Spk.Tests.UnhandledExceptionHandlerCore.Utils
 
             // Assert
             resul.Data["UserHostAddress"].ShouldBe("test_hostaddress");
+        }
+
+        [Fact]
+        public void Build_ShouldNotAppendFormData_WhenNull()
+        {
+            // Arrange
+            _mockRequest
+                .Setup(x => x.Form)
+                .Returns((NameValueCollection)null);
+
+            var builder = new ExceptionWithDataBuilder(_exception, _mockRequest.Object);
+
+            // Act
+            var resul = builder.Build();
+
+            // Assert
+            resul.Data.Keys.Count.ShouldBe(0);
+        }
+
+        [Fact]
+        public void Build_ShouldNotAppendFormData_WhenEmpty()
+        {
+            // Arrange
+            _mockRequest
+                .Setup(x => x.Form)
+                .Returns(new NameValueCollection());
+
+            var builder = new ExceptionWithDataBuilder(_exception, _mockRequest.Object);
+
+            // Act
+            var resul = builder.Build();
+
+            // Assert
+            resul.Data.Keys.Count.ShouldBe(0);
+        }
+
+        [Fact]
+        public void Build_ShouldAppendFormData()
+        {
+            // Arrange
+            _mockRequest
+                .Setup(x => x.Form)
+                .Returns(new NameValueCollection()
+                {
+                    { "key_1", "value_1" }
+                });
+
+            var builder = new ExceptionWithDataBuilder(_exception, _mockRequest.Object);
+
+            // Act
+            var resul = builder.Build();
+
+            // Assert
+            resul.Data["form:key_1"].ShouldBe("value_1");
+        }
+
+        [Fact]
+        public void Build_ShouldNotAppendFormData_WhenPassword()
+        {
+            // Arrange
+            _mockRequest
+                .Setup(x => x.Form)
+                .Returns(new NameValueCollection()
+                {
+                    { "password", "value_1" }
+                });
+
+            var builder = new ExceptionWithDataBuilder(_exception, _mockRequest.Object);
+
+            // Act
+            var resul = builder.Build();
+
+            // Assert
+            resul.Data["form:password"].ShouldBe("[hidden]");
         }
 
         [Fact]
