@@ -42,6 +42,7 @@
     <Compile Include="src\Utils\ConfigUtils.cs" />
     <Compile Include="src\Utils\EmailUtils.cs" />
     <Compile Include="src\Utils\ErrorHandlingUtils.cs" />
+    <Compile Include="src\Utils\ExceptionWithDataBuilder.cs" />
     <Compile Include="src\Utils\LoggingUtils.cs" />
   </ItemGroup>
   <ItemGroup>
