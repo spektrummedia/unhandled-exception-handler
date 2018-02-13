@@ -6,11 +6,15 @@ branches:
     - develop
 
 install:
-  - dotnet --info
-  - dotnet restore
+  - set PATH=C:\Program Files (x86)\MSBuild\14.0\Bin;%PATH%
 
-build_script:
-  - dotnet build -c Release
+before_build:
+  - cd src
+  - nuget restore
+
+build:
+  project: src/Spk.UnhandledExceptionHandler.sln
+  publish_wap: true
 
 artifacts:
   - path: '**\*.nupkg'
