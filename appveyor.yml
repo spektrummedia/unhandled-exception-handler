@@ -14,7 +14,7 @@ before_build:
 
 build:
   project: src/Spk.UnhandledExceptionHandler.sln
-  publish_wap: true
+  publish_nuget: true   
 
 artifacts:
   - path: '**\*.nupkg'
