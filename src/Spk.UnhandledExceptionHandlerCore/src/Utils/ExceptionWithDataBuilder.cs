@@ -1,24 +1,29 @@
 ﻿using System;
+using System.Collections;
 using System.Linq;
 using System.Web;
+using System.Web.SessionState;
 using Spk.Common.Helpers.Guard;
 
 namespace Spk.UnhandledExceptionHandlerCore.Utils
 {
     public class ExceptionWithDataBuilder
     {
-        private readonly Exception _currentException;
+        private readonly Exception _exception;
         private readonly HttpRequestWrapper _request;
+        private readonly HttpSessionState _session;
 
         public ExceptionWithDataBuilder(
             Exception exception,
-            HttpRequestWrapper request)
+            HttpRequestWrapper request,
+            HttpSessionState session)
         {
             exception.GuardIsNotNull(nameof(exception));
             request.GuardIsNotNull(nameof(request));
 
             _request = request;
-            _currentException = exception;
+            _session = session;
+            _exception = exception;
         }
 
         public Exception Build()
@@ -28,7 +33,35 @@ namespace Spk.UnhandledExceptionHandlerCore.Utils
                 .AppendUserAgent()
                 .AppendUserHostAddress()
                 .AppendFormData()
+                .AppendSessionData()
                 .GetException();
+        }
+
+        private ExceptionWithDataBuilder AppendSessionData()
+        {
+            if (_session != null && _session.Keys.Count > 0)
+            {
+                foreach (string key in _session.Keys)
+                {
+                    var value = _session[key];
+
+                    if (value is IList)
+                    {
+                        var valueAsList = value as IList;
+                        foreach (var enumValue in valueAsList)
+                        {
+                            var index = valueAsList.IndexOf(enumValue);
+                            _exception.Data.Add($"session:{key}[{index}]", enumValue);
+                        }
+                    }
+                    else
+                    {
+                        _exception.Data.Add($"session:{key}", value);
+                    }
+                }
+            }
+
+            return this;
         }
 
         private ExceptionWithDataBuilder AppendFormData()
@@ -53,7 +86,7 @@ namespace Spk.UnhandledExceptionHandlerCore.Utils
                         value = Convert.ToString(_request.Form[key]);
                     }
 
-                    _currentException.Data.Add($"form:{key}", value);
+                    _exception.Data.Add($"form:{key}", value);
                 }
             }
 
@@ -64,7 +97,7 @@ namespace Spk.UnhandledExceptionHandlerCore.Utils
         {
             if (_request.UserHostAddress != null)
             {
-                _currentException.Data.Add("UserHostAddress", _request.UserHostAddress);
+                _exception.Data.Add("UserHostAddress", _request.UserHostAddress);
             }
 
             return this;
@@ -74,7 +107,7 @@ namespace Spk.UnhandledExceptionHandlerCore.Utils
         {
             if (_request.UserAgent != null)
             {
-                _currentException.Data.Add("UserAgent", _request.UserAgent);
+                _exception.Data.Add("UserAgent", _request.UserAgent);
             }
 
             return this;
@@ -84,7 +117,7 @@ namespace Spk.UnhandledExceptionHandlerCore.Utils
         {
             if (!string.IsNullOrEmpty(_request.Url?.AbsoluteUri))
             {
-                _currentException.Data.Add("AbsoluteUri", _request.Url.AbsoluteUri);
+                _exception.Data.Add("AbsoluteUri", _request.Url.AbsoluteUri);
             }
 
             return this;
@@ -94,7 +127,7 @@ namespace Spk.UnhandledExceptionHandlerCore.Utils
         {
             if (!string.IsNullOrEmpty(_request.UrlReferrer?.AbsoluteUri))
             {
-                _currentException.Data.Add("UrlReferrer", _request.UrlReferrer);
+                _exception.Data.Add("UrlReferrer", _request.UrlReferrer);
             }
 
             return this;
@@ -102,7 +135,7 @@ namespace Spk.UnhandledExceptionHandlerCore.Utils
 
         private Exception GetException()
         {
-            return _currentException;
+            return _exception;
         }
     }
 }
