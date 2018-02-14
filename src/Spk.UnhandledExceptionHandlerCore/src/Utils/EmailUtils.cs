@@ -101,9 +101,7 @@ namespace Spk.UnhandledExceptionHandlerCore.Utils
         public static void SendEmail(Exception exception)
         {
             var sentryClient = new RavenClient(ConfigUtils.SentryDsn);
-            var request = HttpContext.Current.Request == null
-                ? null
-                : new HttpRequestWrapper(HttpContext.Current.Request);
+            var request = GetRequest();
             var session = HttpContext.Current.Session;
 
             try
@@ -115,6 +113,20 @@ namespace Spk.UnhandledExceptionHandlerCore.Utils
             {
                 // So weird. We need to log it
                 sentryClient.Capture(new SentryEvent(exception));
+            }
+        }
+
+        private static HttpRequestWrapper GetRequest()
+        {
+            try
+            {
+                return HttpContext.Current?.Request == null
+                    ? null
+                    : new HttpRequestWrapper(HttpContext.Current.Request);
+            }
+            catch
+            {
+                return null;
             }
         }
     }
