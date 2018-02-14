@@ -36,6 +36,11 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="src\CompanyInfo.cs" />
     <Compile Include="src\Configuration\ErrorHandlingSection.cs" />
+    <Compile Include="src\Constants\UnwantedArgumentExceptions.cs" />
+    <Compile Include="src\Constants\UnwantedHttpExceptions.cs" />
+    <Compile Include="src\Constants\UnwantedInvalidOperationExceptions.cs" />
+    <Compile Include="src\Constants\UnwantedUriParts.cs" />
+    <Compile Include="src\Constants\Crawlers.cs" />
     <Compile Include="src\Filters\HttpNotFoundFilter.cs" />
     <Compile Include="src\Logging\TheLogger.cs" />
     <Compile Include="src\Utils\AppErrorUtils.cs" />

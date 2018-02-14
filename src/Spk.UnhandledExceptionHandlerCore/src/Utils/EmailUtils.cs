@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Mvc;
 using SharpRaven;
@@ -13,191 +10,6 @@ namespace Spk.UnhandledExceptionHandlerCore.Utils
 {
     public class EmailUtils
     {
-        private static readonly List<string> Crawlers = new List<string>
-        {
-            "googlebot",
-            "google.com/bot.html",
-            "bot",
-            "crawler",
-            "feed",
-            "rss",
-            "spider",
-            "80legs",
-            "baidu",
-            "slurp", // was "yahoo! slurp" but didn't seem to work correctly
-            "ia_archiver",
-            "catalog",
-            "mediapartners-google",
-            "lwp-trivial",
-            "nederland.zoek",
-            "ahoy",
-            "anthill",
-            "appie",
-            "arale",
-            "araneo",
-            "ariadne",
-            "zapier",
-            "atn_worldwide",
-            "atomz",
-            "bjaaland",
-            "ukonline",
-            "calif",
-            "combine",
-            "cosmos",
-            "jakarta",
-            "cusco",
-            "cyberspyder",
-            "digger",
-            "grabber",
-            "downloadexpress",
-            "ecollector",
-            "ebiness",
-            "esculapio",
-            "esther",
-            "felix ide",
-            "hamahakki",
-            "kit-fireball",
-            "fouineur",
-            "freecrawl",
-            "desertrealm",
-            "gcreep",
-            "golem",
-            "griffon",
-            "gromit",
-            "gulliver",
-            "gulper",
-            "whowhere",
-            "havindex",
-            "hotwired",
-            "htdig",
-            "ingrid",
-            "informant",
-            "inspectorwww",
-            "iron33",
-            "teoma",
-            "ask jeeves",
-            "jeeves",
-            "image.kapsi.net",
-            "kdd-explorer",
-            "label-grabber",
-            "larbin",
-            "linkidator",
-            "linkwalker",
-            "lockon",
-            "marvin",
-            "mattie",
-            "mediafox",
-            "merzscope",
-            "nec-meshexplorer",
-            "udmsearch",
-            "moget",
-            "motor",
-            "muncher",
-            "muninn",
-            "muscatferret",
-            "mwdsearch",
-            "sharp-info-agent",
-            "webmechanic",
-            "netscoop",
-            "newscan-online",
-            "objectssearch",
-            "orbsearch",
-            "packrat",
-            "pageboy",
-            "parasite",
-            "patric",
-            "pegasus",
-            "phpdig",
-            "piltdownman",
-            "pimptrain",
-            "plumtreewebaccessor",
-            "getterrobo-plus",
-            "raven",
-            "roadrunner",
-            "robbie",
-            "robocrawl",
-            "robofox",
-            "webbandit",
-            "scooter",
-            "search-au",
-            "searchprocess",
-            "senrigan",
-            "shagseeker",
-            "site valet",
-            "skymob",
-            "slurp",
-            "snooper",
-            "speedy",
-            "curl_image_client",
-            "suke",
-            "www.sygol.com",
-            "tach_bw",
-            "templeton",
-            "titin",
-            "topiclink",
-            "udmsearch",
-            "urlck",
-            "valkyrie libwww-perl",
-            "verticrawl",
-            "victoria",
-            "webscout",
-            "voyager",
-            "crawlpaper",
-            "webcatcher",
-            "t-h-u-n-d-e-r-s-t-o-n-e",
-            "webmoose",
-            "pagesinventory",
-            "webquest",
-            "webreaper",
-            "webwalker",
-            "winona",
-            "occam",
-            "robi",
-            "fdse",
-            "jobo",
-            "rhcs",
-            "gazz",
-            "dwcp",
-            "yeti",
-            "fido",
-            "wlm",
-            "wolp",
-            "wwwc",
-            "xget",
-            "legs",
-            "curl",
-            "webs",
-            "wget",
-            "sift",
-            "cmc",
-            "updown_tester",
-            "facebook"
-        };
-
-        private static readonly List<string> UnwantedUriParts = new List<string>
-        {
-            "remote.axd",
-            "favicon",
-            "apple-" // Apple icons
-        };
-
-        private static readonly List<string> UnwantedHttpExceptions = new List<string>
-        {
-            "the length of the url for this request exceeds",
-            "a potentially dangerous request",
-            "the remote host closed the connection"
-        };
-
-        private static readonly List<string> UnwantedArgumentExceptions = new List<string>
-        {
-            "illegal characters in path"
-        };
-
-        private static readonly List<string> UnwantedInvalidOperationExceptions = new List<string>
-        {
-            "the requested resource can only be accessed via ssl" // SSL website accessed by bot not handling SSL
-        };
-
         public static bool ShouldSendEmail(Exception exception)
         {
             try
@@ -212,7 +24,7 @@ namespace Spk.UnhandledExceptionHandlerCore.Utils
                 if (ConfigUtils.IgnoreCrawlers && HttpContext.Current.Request.UserAgent != null)
                 {
                     var agent = HttpContext.Current.Request.UserAgent.ToLowerInvariant();
-                    if (Crawlers.Exists(agent.Contains))
+                    if (Constants.Crawlers.Exists(agent.Contains))
                     {
                         return false;
                     }
@@ -220,7 +32,7 @@ namespace Spk.UnhandledExceptionHandlerCore.Utils
 
                 // Ignore errors for some URI parts
                 var absoluteUri = HttpContext.Current.Request.Url.AbsoluteUri.ToLowerInvariant();
-                if (UnwantedUriParts.Exists(absoluteUri.Contains))
+                if (Constants.UnwantedUriParts.Exists(absoluteUri.Contains))
                 {
                     return false;
                 }
@@ -247,7 +59,7 @@ namespace Spk.UnhandledExceptionHandlerCore.Utils
             if (exception is HttpException)
             {
                 var message = exception.Message.ToLowerInvariant();
-                if (UnwantedHttpExceptions.Exists(message.Contains))
+                if (Constants.UnwantedHttpExceptions.Exists(message.Contains))
                 {
                     return false;
                 }
@@ -257,7 +69,7 @@ namespace Spk.UnhandledExceptionHandlerCore.Utils
             if (exception is ArgumentException)
             {
                 var message = exception.Message.ToLowerInvariant();
-                if (UnwantedArgumentExceptions.Exists(message.Contains))
+                if (Constants.UnwantedArgumentExceptions.Exists(message.Contains))
                 {
                     return false;
                 }
@@ -267,7 +79,7 @@ namespace Spk.UnhandledExceptionHandlerCore.Utils
             if (exception is InvalidOperationException)
             {
                 var message = exception.Message.ToLowerInvariant();
-                if (UnwantedInvalidOperationExceptions.Exists(message.Contains))
+                if (Constants.UnwantedInvalidOperationExceptions.Exists(message.Contains))
                 {
                     return false;
                 }
