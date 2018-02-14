@@ -7,54 +7,9 @@ namespace Spk.UnhandledExceptionHandlerCore.Utils
     {
         private static ErrorHandlingSection ErrorHandlingSection { get; set; }
 
-        public static bool UseCustomSmtpConfig
+        public static string SentryDsn
         {
-            get { return GetErrorHandlingSection().UseCustomSmtpConfig; }
-        }
-
-        public static string SmtpHost
-        {
-            get { return GetErrorHandlingSection().SmtpHost; }
-        }
-
-        public static int SmtpPort
-        {
-            get { return GetErrorHandlingSection().SmtpPort; }
-        }
-
-        public static bool EnableSsl
-        {
-            get { return GetErrorHandlingSection().EnableSsl; }
-        }
-
-        public static string Username
-        {
-            get { return GetErrorHandlingSection().EmailUsername; }
-        }
-
-        public static string Password
-        {
-            get { return GetErrorHandlingSection().EmailPassword; }
-        }
-
-        public static string From
-        {
-            get { return GetErrorHandlingSection().EmailFrom; }
-        }
-
-        public static string FromName
-        {
-            get { return GetErrorHandlingSection().EmailFromName; }
-        }
-
-        public static string To
-        {
-            get { return GetErrorHandlingSection().EmailTo; }
-        }
-
-        public static string SubjectPrefix
-        {
-            get { return GetErrorHandlingSection().EmailSubjectPrefix; }
+            get { return GetErrorHandlingSection().SentryDsn; }
         }
 
         public static bool SendWhenLocal
