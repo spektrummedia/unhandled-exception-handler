@@ -9,21 +9,27 @@ namespace Spk.UnhandledExceptionHandlerCore.Utils
         public static void OnApplicationError(object sender, EventArgs e, Exception exception)
         {
             if (exception == null)
+            {
                 return;
+            }
 
-            var httpContext = ((HttpApplication)sender).Context;
+            var httpContext = ((HttpApplication) sender).Context;
 
             // Log the error
             LoggingUtils.LogAllExceptions(exception);
 
             // Send error by email if it has to be done
             if (EmailUtils.ShouldSendEmail(exception))
+            {
                 EmailUtils.SendEmail(exception);
+            }
 
             try
             {
                 if (ConfigUtils.ShowErrorsWhenLocal && httpContext.Request.Url.Host.Contains(".local"))
+                {
                     return;
+                }
             }
             catch (HttpException)
             {
@@ -60,7 +66,7 @@ namespace Spk.UnhandledExceptionHandlerCore.Utils
                 httpContext.ClearError();
                 httpContext.Response.Clear();
                 httpContext.Response.StatusCode = exception is HttpException
-                    ? ((HttpException)exception).GetHttpCode()
+                    ? ((HttpException) exception).GetHttpCode()
                     : 500;
                 httpContext.Response.TrySkipIisCustomErrors = true;
                 httpContext.Response.TransmitFile($"~/Views/Error/{action}.html");
