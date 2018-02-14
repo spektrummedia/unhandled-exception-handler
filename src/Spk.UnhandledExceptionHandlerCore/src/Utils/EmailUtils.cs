@@ -289,13 +289,14 @@ namespace Spk.UnhandledExceptionHandlerCore.Utils
         public static void SendEmail(Exception exception)
         {
             var sentryClient = new RavenClient(ConfigUtils.SentryDsn);
+            var request = HttpContext.Current.Request == null
+                ? null
+                : new HttpRequestWrapper(HttpContext.Current.Request);
+            var session = HttpContext.Current.Session;
 
             try
             {
-                var builder = new ExceptionWithDataBuilder(
-                    exception,
-                    new HttpRequestWrapper(HttpContext.Current.Request),
-                    HttpContext.Current.Session);
+                var builder = new ExceptionWithDataBuilder(exception, request, session);
                 sentryClient.Capture(new SentryEvent(builder.Build()));
             }
             catch
