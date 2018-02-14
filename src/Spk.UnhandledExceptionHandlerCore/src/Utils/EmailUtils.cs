@@ -305,35 +305,5 @@ namespace Spk.UnhandledExceptionHandlerCore.Utils
                 sentryClient.Capture(new SentryEvent(exception));
             }
         }
-
-        /// <summary>
-        ///     Copied from https://coderwall.com/p/vshjwq/how-to-generate-clean-url-slug-in-c
-        /// </summary>
-        /// <param name="value"></param>
-        /// <returns></returns>
-        private static string Slugify(string value)
-        {
-            //First to lower case 
-            value = value.ToLowerInvariant();
-
-            //Remove all accents
-            var bytes = Encoding.GetEncoding("Cyrillic").GetBytes(value);
-
-            value = Encoding.ASCII.GetString(bytes);
-
-            //Replace spaces 
-            value = Regex.Replace(value, @"\s", "-", RegexOptions.Compiled);
-
-            //Remove invalid chars 
-            value = Regex.Replace(value, @"[^\w\s\p{Pd}]", "", RegexOptions.Compiled);
-
-            //Trim dashes from end 
-            value = value.Trim('-', '_');
-
-            //Replace double occurences of - or \_ 
-            value = Regex.Replace(value, @"([-_]){2,}", "$1", RegexOptions.Compiled);
-
-            return value;
-        }
     }
 }
