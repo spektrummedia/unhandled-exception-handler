@@ -109,9 +109,10 @@ namespace Spk.UnhandledExceptionHandlerCore.Utils
                 var builder = new ExceptionWithDataBuilder(exception, request, session);
                 sentryClient.Capture(new SentryEvent(builder.Build()));
             }
-            catch
+            catch (Exception e)
             {
                 // So weird. We need to log it
+                sentryClient.Capture(new SentryEvent(e));
                 sentryClient.Capture(new SentryEvent(exception));
             }
         }
