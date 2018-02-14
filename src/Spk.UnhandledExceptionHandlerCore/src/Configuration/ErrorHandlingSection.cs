@@ -4,32 +4,6 @@ namespace Spk.UnhandledExceptionHandlerCore.Configuration
 {
     public class ErrorHandlingSection : ConfigurationSection
     {
-        [ConfigurationProperty("useCustomSmtpConfig", DefaultValue = "false", IsRequired = true)]
-        public bool UseCustomSmtpConfig
-        {
-            get
-            {
-                return (bool)this["useCustomSmtpConfig"];
-            }
-            set
-            {
-                this["useCustomSmtpConfig"] = value;
-            }
-        }
-
-        [ConfigurationProperty("smtpHost", DefaultValue = "", IsRequired = true)]
-        public string SmtpHost
-        {
-            get
-            {
-                return (string)this["smtpHost"];
-            }
-            set
-            {
-                this["smtpHost"] = value;
-            }
-        }
-
         [ConfigurationProperty("pathsToIgnore", DefaultValue = "wp-content", IsRequired = true)]
         public string PathsToIgnore
         {
@@ -40,32 +14,6 @@ namespace Spk.UnhandledExceptionHandlerCore.Configuration
             set
             {
                 this["pathsToIgnore"] = value;
-            }
-        }
-
-        [ConfigurationProperty("smtpPort", DefaultValue = "587", IsRequired = true)]
-        public int SmtpPort
-        {
-            get
-            {
-                return (int)this["smtpPort"];
-            }
-            set
-            {
-                this["smtpPort"] = value;
-            }
-        }
-
-        [ConfigurationProperty("enableSsl", DefaultValue = "true", IsRequired = true)]
-        public bool EnableSsl
-        {
-            get
-            {
-                return (bool)this["enableSsl"];
-            }
-            set
-            {
-                this["enableSsl"] = value;
             }
         }
 
@@ -82,58 +30,7 @@ namespace Spk.UnhandledExceptionHandlerCore.Configuration
             }
         }
 
-        [ConfigurationProperty("emailFrom", DefaultValue = "", IsRequired = true)]
-        public string EmailFrom
-        {
-            get
-            {
-                return (string)this["emailFrom"];
-            }
-            set
-            {
-                this["emailFrom"] = value;
-            }
-        }
-
-        [ConfigurationProperty("emailFromName", DefaultValue = "", IsRequired = true)]
-        public string EmailFromName
-        {
-            get
-            {
-                return (string)this["emailFromName"];
-            }
-            set
-            {
-                this["emailFromName"] = value;
-            }
-        }
-
-        [ConfigurationProperty("emailTo", DefaultValue = "", IsRequired = true)]
-        public string EmailTo
-        {
-            get
-            {
-                return (string)this["emailTo"];
-            }
-            set
-            {
-                this["emailTo"] = value;
-            }
-        }
-
-        [ConfigurationProperty("emailSubjectPrefix", DefaultValue = "Unknown Project", IsRequired = true)]
-        public string EmailSubjectPrefix
-        {
-            get
-            {
-                return (string)this["emailSubjectPrefix"];
-            }
-            set
-            {
-                this["emailSubjectPrefix"] = value;
-            }
-        }
-
+        
         [ConfigurationProperty("sendEmailWhenLocal", DefaultValue = "false", IsRequired = true)]
         public bool SendEmailWhenLocal
         {
