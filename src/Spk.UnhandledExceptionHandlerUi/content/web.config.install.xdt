@@ -6,7 +6,7 @@
         
         <sectionGroup name="errorHandlingGroup" xdt:Transform="Insert">
             <section name="errorHandling"
-                     type="Spk.Infrastructure.UnhandledExceptionHandlerCore.Configuration.ErrorHandlingSection"
+                     type="Spk.UnhandledExceptionHandlerCore.Configuration.ErrorHandlingSection"
                      allowLocation="true"
                      allowDefinition="Everywhere" />
         </sectionGroup>
