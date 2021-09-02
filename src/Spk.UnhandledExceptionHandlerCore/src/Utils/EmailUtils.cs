@@ -99,7 +99,7 @@ namespace Spk.UnhandledExceptionHandlerCore.Utils
 
         public static void SendEmail(Exception exception)
         {
-            using (SentrySdk.Init(o => { o.Dsn = ConfigUtils.SentryDsn; }))
+            using (SentrySdk.Init(o => { o.Dsn = new Dsn(ConfigUtils.SentryDsn); }))
             {
                 var request = GetRequest();
                 var session = HttpContext.Current.Session;
