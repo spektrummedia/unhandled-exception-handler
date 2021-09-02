@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
     <metadata>
         <id>Spk.UnhandledExceptionHandlerUi</id>
-        <version>1.4.0</version>
+        <version>1.4.1</version>
         <title>An exception catcher for .Net MVC 4 and 5. Unhandled Exception Handler UI</title>
         <authors>spektrummedia</authors>
         <owners>Spektrum Media</owners>
@@ -13,7 +13,7 @@
         <copyright>Copyright Spektrum Media 2018</copyright>
         <tags>unhandled exception error</tags>
         <dependencies>
-            <dependency id="Spk.UnhandledExceptionHandlerCore" version="1.4.0" />
+            <dependency id="Spk.UnhandledExceptionHandlerCore" version="1.4.1" />
         </dependencies>
     </metadata>
     <files>
