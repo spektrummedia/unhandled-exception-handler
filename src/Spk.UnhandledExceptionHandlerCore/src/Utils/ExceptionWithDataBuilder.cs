@@ -44,9 +44,8 @@ namespace Spk.UnhandledExceptionHandlerCore.Utils
                 {
                     var value = _session[key];
 
-                    if (value is IList)
+                    if (value is IList valueAsList)
                     {
-                        var valueAsList = value as IList;
                         foreach (var enumValue in valueAsList)
                         {
                             var index = valueAsList.IndexOf(enumValue);

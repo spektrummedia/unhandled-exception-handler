@@ -3,8 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using SharpRaven;
-using SharpRaven.Data;
+using Sentry;
 
 namespace Spk.UnhandledExceptionHandlerCore.Utils
 {
@@ -100,20 +99,23 @@ namespace Spk.UnhandledExceptionHandlerCore.Utils
 
         public static void SendEmail(Exception exception)
         {
-            var sentryClient = new RavenClient(ConfigUtils.SentryDsn);
-            var request = GetRequest();
-            var session = HttpContext.Current.Session;
+            using (SentrySdk.Init(o => { o.Dsn = ConfigUtils.SentryDsn; }))
+            {
+                var request = GetRequest();
+                var session = HttpContext.Current.Session;
 
-            try
-            {
-                var builder = new ExceptionWithDataBuilder(exception, request, session);
-                sentryClient.Capture(new SentryEvent(builder.Build()));
-            }
-            catch (Exception e)
-            {
-                // So weird. We need to log it
-                sentryClient.Capture(new SentryEvent(e));
-                sentryClient.Capture(new SentryEvent(exception));
+                try
+                {
+                    var builder = new ExceptionWithDataBuilder(exception, request, session);
+                    SentrySdk.CaptureEvent(new SentryEvent(builder.Build()));
+
+                }
+                catch (Exception e)
+                {
+                    // So weird. We need to log it
+                    SentrySdk.CaptureException(e);
+                    SentrySdk.CaptureException(exception);
+                }
             }
         }
 
